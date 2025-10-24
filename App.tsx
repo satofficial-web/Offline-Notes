@@ -28,17 +28,34 @@ const App: React.FC = () => {
   const [view, setView] = useState<View>('dashboard');
   const [isMobileListVisible, setIsMobileListVisible] = useState(true);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (localStorage.getItem('theme') === 'dark') return 'dark';
+    if (localStorage.getItem('theme') === 'light') return 'light';
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
     }
     return 'light';
   });
 
+  // PWA Service Worker Registration
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }).catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  }, []);
+
   useEffect(() => {
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
     }
   }, [theme]);
 
