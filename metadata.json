@@ -1,0 +1,5 @@
+{
+  "name": "Offline Notes",
+  "description": "A secure, offline-first note-taking application that stores all your data directly on your device. Organize your thoughts, tasks, and projects with ease and export your notes to PDF or Markdown for backup.",
+  "requestFramePermissions": []
+}
